@@ -1,8 +1,10 @@
 import java.util.PriorityQueue;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
+import java.util.Collections;
 
 public class MedianHeap {
+  private final static int DEFAULT_CAPACITY = 11;
   private PriorityQueue<Integer> leftHalf = mkMaxHeap();
   private PriorityQueue<Integer> rightHalf = mkMinHeap();
 
@@ -49,18 +51,18 @@ public class MedianHeap {
     }
   }
 
-  private static PriorityQueue<Integer> mkMaxHeap() {
-    return new PriorityQueue<Integer>(11, REVERSE_NATURAL_ORDER);
-  }
-
   private static PriorityQueue<Integer> mkMinHeap() {
-    return new PriorityQueue<Integer>();
+    return new PriorityQueue<Integer>(DEFAULT_CAPACITY, NATURAL_ORDER);
   }
 
-  private final static Comparator<Integer> REVERSE_NATURAL_ORDER = new Comparator<Integer>() {
+  private static PriorityQueue<Integer> mkMaxHeap() {
+    return new PriorityQueue<Integer>(DEFAULT_CAPACITY, Collections.reverseOrder(NATURAL_ORDER));
+  }
+
+  private final static Comparator<Integer> NATURAL_ORDER = new Comparator<Integer>() {
     @Override
     public int compare(Integer a, Integer b) {
-        return - a.compareTo(b);
+      return a.compareTo(b);
     }
   };
 
