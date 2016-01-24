@@ -36,8 +36,8 @@ class MedianHeapSpec extends FlatSpec with Matchers {
     heap.pop() should be(0)
     heap.push(0)
     heap.push(4)
-    heap.pop() should be(0)
     heap.pop() should be(4)
+    heap.pop() should be(0)
   }
 
   it should "throw NoSuchElementException if an empty heap is popped" in {
