@@ -37,7 +37,7 @@ class PhonePrefixesSpec extends FlatSpec with Matchers with Timeouts {
   it should "execute fast for very large sequences" in {
     import org.scalatest.time.SpanSugar._
 
-    val bigInput = Random.alphanumeric.grouped(10).map(x => x.mkString).take(100000).toArray
+    val bigInput = Random.alphanumeric.grouped(10).map(x => x.mkString).take(10000).toArray
 
     failAfter(100 millis) {
       (new Solver).solve(bigInput)
