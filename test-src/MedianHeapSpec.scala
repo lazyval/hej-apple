@@ -1,9 +1,10 @@
-import collection.mutable.Stack
+import java.util.NoSuchElementException
+
 import org.scalatest._
 
-class ExampleSpec extends FlatSpec with Matchers {
+class MedianHeapSpec extends FlatSpec with Matchers {
 
-  "A Stack" should "pop values in last-in-first-out order" in {
+  "MedianHeap" should "pop median of it's elements" in {
     val heap = new MedianHeap
     heap.push(1)
     heap.push(2)
@@ -31,15 +32,15 @@ class ExampleSpec extends FlatSpec with Matchers {
     val heap = new MedianHeap
     heap.push(0)
     heap.push(0)
+    heap.pop() should be(0)
+    heap.pop() should be(0)
     heap.push(0)
-    heap.pop() should be(0)
-    heap.pop() should be(0)
-    heap.pop() should be(0)
     heap.push(4)
+    heap.pop() should be(0)
     heap.pop() should be(4)
   }
 
-  it should "throw NoSuchElementException if an empty stack is popped" in {
+  it should "throw NoSuchElementException if an empty heap is popped" in {
     val emptyHeap = new MedianHeap
     a[NoSuchElementException] should be thrownBy {
       emptyHeap.pop()
