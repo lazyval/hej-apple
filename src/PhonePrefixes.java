@@ -27,8 +27,8 @@ public class PhonePrefixes {
             Arrays.sort(lines);
 
             for (int i = 0; i < lines.length - 1; i++) {
-                String possiblePrefix = lines[0];
-                String word = lines[1];
+                String possiblePrefix = lines[i];
+                String word = lines[i + 1];
                 if (word.startsWith(possiblePrefix)) return false;
             }
             return true;

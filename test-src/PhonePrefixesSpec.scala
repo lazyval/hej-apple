@@ -59,4 +59,30 @@ class PhonePrefixesSpec extends FlatSpec with Matchers with Timeouts {
 
     Problem.solve(singleton) should be(true)
   }
+
+  it should "return false for (1, 57, 5)" in {
+    val singleton = Array("1", "57", "5")
+
+    Problem.solve(singleton) should be(false)
+  }
+
+  it should "return median right after inserting arbitrary sequence" in {
+    import org.scalacheck.Gen
+    import org.scalacheck.Prop.{BooleanOperators, forAll}
+
+    def answer(xs: Seq[String]) = {
+      xs.combinations(2).forall { case Seq(x, y) =>
+        val fail = x.startsWith(y) || y.startsWith(x)
+        ! fail
+      }
+    }
+
+    val numbers = Gen.listOf(Gen.numStr)
+
+    val propConcatLists = forAll(numbers) { xs: Seq[String] => xs.nonEmpty ==> {
+      PhonePrefixes.Problem.solve(xs.distinct.toArray) == answer(xs.distinct)
+    }}
+
+    propConcatLists.check
+  }
 }
