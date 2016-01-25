@@ -33,11 +33,12 @@ class MedianHeap {
     public int pop() {
         if (isEmpty()) throw new NoSuchElementException();
 
-        int median = size() % 2 == 0
-            ? rightHalf.poll()
-            : leftHalf.poll();
-
-        return median;
+        if (leftHalf.size() == rightHalf.size()) {
+            return rightHalf.poll();
+        } else {
+            PriorityQueue<Integer> biggest = leftHalf.size() > rightHalf.size() ? leftHalf : rightHalf;
+            return biggest.poll();
+        }
     }
 
     public void push(int x) {
