@@ -53,4 +53,10 @@ class PhonePrefixesSpec extends FlatSpec with Matchers with Timeouts {
       Problem.solve(bigInput)
     }
   }
+
+  it should "return true for a single number" in {
+    val singleton = Array("911")
+
+    Problem.solve(singleton) should be(true)
+  }
 }
