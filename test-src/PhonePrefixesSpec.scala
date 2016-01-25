@@ -1,4 +1,4 @@
-import PhonePrefixes.Solver
+import PhonePrefixes.Problem
 import org.scalatest.concurrent.Timeouts
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -14,7 +14,7 @@ class PhonePrefixesSpec extends FlatSpec with Matchers with Timeouts {
       "98346"
     )
 
-    (new Solver).solve(solvable) should be(true)
+    Problem.solve(solvable) should be(true)
   }
 
   it should "return false for non-solvable example" in {
@@ -24,14 +24,24 @@ class PhonePrefixesSpec extends FlatSpec with Matchers with Timeouts {
       "91125426"
     )
 
-    (new Solver).solve(nonSolvable) should be(false)
+    Problem.solve(nonSolvable) should be(false)
+  }
+
+  it should "return false if there are many ways to fail" in {
+    val solvable = Array(
+      "91125999",
+      "911",
+      "91125426"
+    )
+
+    Problem.solve(solvable) should be(false)
   }
 
   it should "0911 is a different phone number from 911" in {
     val solvable = Array("911", "0911")
 
 
-    (new Solver).solve(solvable) should be(true)
+    Problem.solve(solvable) should be(true)
   }
 
   it should "execute fast for very large sequences" in {
@@ -40,7 +50,7 @@ class PhonePrefixesSpec extends FlatSpec with Matchers with Timeouts {
     val bigInput = Random.alphanumeric.grouped(10).map(x => x.mkString).take(10000).toArray
 
     failAfter(100 millis) {
-      (new Solver).solve(bigInput)
+      Problem.solve(bigInput)
     }
   }
 }

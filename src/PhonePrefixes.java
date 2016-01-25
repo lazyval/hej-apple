@@ -5,9 +5,10 @@ public class PhonePrefixes {
 
     }
 
-    public static class Solver {
-        public boolean solve(String[] lines) {
+    public static class Problem {
+        public static boolean solve(String[] lines) {
             Arrays.sort(lines);
+
             for (int i = 0; i < lines.length - 1; i++) {
                 String possiblePrefix = lines[0];
                 String word = lines[1];
