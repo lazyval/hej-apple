@@ -1,27 +1,31 @@
+import java.io.*;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class CookieSelection {
     private final static String GIMME_COOKIE = "#";
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Kattio io = new Kattio(System.in, System.out);
+
         MedianHeap holdingArea = new MedianHeap();
 
-        while (input.hasNextLine()) {
-            if (input.hasNextInt()) {
-                int cookie = Integer.parseInt(input.nextLine());
+        while (io.hasMoreTokens()) {
+            String word = io.getWord();
+            try {
+                int cookie = Integer.parseInt(word);
                 holdingArea.push(cookie);
-            } else {
-                String token = input.nextLine();
-                if (!token.equals(GIMME_COOKIE))
-                    throw new IllegalArgumentException("Expected gimme cookie command (#), but got :" + token);
+            } catch (NumberFormatException ex) {
+                if (!word.equals(GIMME_COOKIE))
+                    throw new IllegalArgumentException("Expected gimme cookie command (#), but got :" + word);
                 int medianCookie = holdingArea.pop();
-                System.out.println(medianCookie);
+                io.println(medianCookie);
             }
         }
+
+        io.close();
     }
 }
 
@@ -91,5 +95,45 @@ class MedianHeap {
 
     public String toString() {
         return leftHalf.toString() + rightHalf.toString();
+    }
+}
+
+
+class Kattio extends PrintWriter {
+    public Kattio(InputStream i, OutputStream o) {
+        super(new BufferedOutputStream(o));
+        r = new BufferedReader(new InputStreamReader(i));
+    }
+
+    public boolean hasMoreTokens() {
+        return peekToken() != null;
+    }
+
+    public String getWord() {
+        return nextToken();
+    }
+
+    private BufferedReader r;
+    private String line;
+    private StringTokenizer st;
+    private String token;
+
+    private String peekToken() {
+        if (token == null)
+            try {
+                while (st == null || !st.hasMoreTokens()) {
+                    line = r.readLine();
+                    if (line == null) return null;
+                    st = new StringTokenizer(line);
+                }
+                token = st.nextToken();
+            } catch (IOException e) { }
+        return token;
+    }
+
+    private String nextToken() {
+        String ans = peekToken();
+        token = null;
+        return ans;
     }
 }
